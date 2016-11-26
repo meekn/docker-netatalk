@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ ! -z "${AFP_USER}" ]; then
     if [ ! -z "${AFP_UID}" ]; then
