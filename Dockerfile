@@ -5,10 +5,10 @@ MAINTAINER Sam Powers <sampowers@gmail.com>
 ENV BUILDDEPS="curl build-base automake autoconf libtool avahi-dev libgcrypt-dev linux-pam-dev cracklib-dev db-dev libevent-dev krb5-dev tdb-dev file"
 ENV RUNTIMEDEPS="avahi libldap libgcrypt python avahi dbus dbus-glib py-dbus linux-pam cracklib db libevent krb5 tdb"
 
-RUN apk --no-cache add $BUILDDEPS $RUNTIMEDEPS
-RUN mkdir -p /build/netatalk \
-&& curl -Ls https://github.com/Netatalk/Netatalk/archive/netatalk-3-1-10.tar.gz | tar zx -C /build/netatalk --strip-components=1
-RUN cd /build/netatalk \
+RUN apk --no-cache add $BUILDDEPS $RUNTIMEDEPS \
+&& mkdir -p /build/netatalk \
+&& curl -Ls https://github.com/Netatalk/Netatalk/archive/netatalk-3-1-10.tar.gz | tar zx -C /build/netatalk --strip-components=1 \
+&& cd /build/netatalk \
 && ./bootstrap \
 && ./configure \
 --prefix=/usr \
