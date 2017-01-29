@@ -21,7 +21,7 @@ RUN cd /build/netatalk \
 --with-pam-confdir=/etc/pam.d \
 --with-dbus-sysconf-dir=/etc/dbus-1/system.d \
 --with-tracker-pkgconfig-version=0.16 \
-&& make \
+&& make -j $(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
 && make install \
 && cd / && rm -rf /build \
 && mkdir /media/share \
