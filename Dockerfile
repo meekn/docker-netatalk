@@ -25,7 +25,7 @@ libevent \
 krb5 \
 tdb
 
-RUN curl -Ls https://github.com/Netatalk/Netatalk/archive/netatalk-3-1-10.tar.gz | tar jx
+RUN curl -Ls https://github.com/Netatalk/Netatalk/archive/netatalk-3-1-10.tar.gz | tar zx
 
 WORKDIR Netatalk-netatalk-${NETATALK_VERSION}
 
