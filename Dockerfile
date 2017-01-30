@@ -2,34 +2,15 @@ FROM alpine:latest
 
 MAINTAINER Sam Powers <sampowers@gmail.com>
 
-ENV NETATALK_VERSION 3.1.10
-ENV BUILDDEPS="curl build-base libtool avahi-dev libgcrypt-dev linux-pam-dev cracklib-dev db-dev libevent-dev krb5-dev tdb-dev file"
+ENV BUILDDEPS="curl build-base automake autoconf libtool avahi-dev libgcrypt-dev linux-pam-dev cracklib-dev db-dev libevent-dev krb5-dev tdb-dev file"
+ENV RUNTIMEDEPS="avahi libldap libgcrypt python avahi dbus dbus-glib py-dbus linux-pam cracklib db libevent krb5 tdb"
 
-RUN mkdir -p /build/netatalk
-WORKDIR /build/netatalk/
-
-RUN apk --no-cache add \
-$BUILDDEPS \
-avahi \
-libldap \
-libgcrypt \
-python \
-avahi \
-dbus \
-dbus-glib \
-py-dbus \
-linux-pam \
-cracklib \
-db \
-libevent \
-krb5 \
-tdb
-
-RUN curl -Ls https://github.com/Netatalk/Netatalk/archive/netatalk-3-1-10.tar.gz | tar zx
-
-WORKDIR Netatalk-netatalk-${NETATALK_VERSION}
-
-RUN ./configure \
+RUN apk --no-cache add $BUILDDEPS $RUNTIMEDEPS
+RUN mkdir -p /build/netatalk \
+&& curl -Ls https://github.com/Netatalk/Netatalk/archive/netatalk-3-1-10.tar.gz | tar zx -C /build/netatalk --strip-components=1
+RUN cd /build/netatalk \
+&& ./bootstrap \
+&& ./configure \
 --prefix=/usr \
 --sysconfdir=/etc \
 --with-init-style=debian-sysv \
@@ -42,6 +23,7 @@ RUN ./configure \
 --with-tracker-pkgconfig-version=0.16 \
 && make \
 && make install \
+&& cd / && rm -rf /build \
 && mkdir /media/share \
 && apk del --purge $BUILDDEPS
 
