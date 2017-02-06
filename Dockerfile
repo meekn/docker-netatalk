@@ -2,7 +2,7 @@ FROM debian:jessie
 
 LABEL MAINTAINER="martin@cptactionhank.xyz"
 
-ENV NETATALK_VERSION 3.1.8
+ENV NETATALK_VERSION 3.1.10
 
 ENV BUILD_DEPS  \
                 build-essential \
