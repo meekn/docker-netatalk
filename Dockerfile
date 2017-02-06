@@ -1,6 +1,6 @@
 FROM resin/rpi-raspbian
 
-LABEL MAINTAINER="martin@cptactionhank.xyz"
+LABEL MAINTAINER="mitsuharu.kurita@gmail.com"
 
 ENV NETATALK_VERSION 3.1.10
 
@@ -49,6 +49,8 @@ RUN     apt-get update \
                 tracker \
                 avahi-daemon \
                 curl \
+                samba \
+                supervisor \
         \
         && curl -sSL  http://ufpr.dl.sourceforge.net/project/netatalk/netatalk/${NETATALK_VERSION}/netatalk-${NETATALK_VERSION}.tar.gz -O \
         && tar fxvz netatalk-${NETATALK_VERSION}.tar.gz \
@@ -91,5 +93,6 @@ RUN     apt-get update \
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY afp.conf /etc/afp.conf
+COPY smb.conf /etc/samba/smb.conf
 
 CMD ["/docker-entrypoint.sh"]
